@@ -20,9 +20,14 @@ public class UserServicesImp implements UserService
     @Override
     public String createUser(User user) {
         String userEmail = user.getUserEmail();
+        String userPassword = user.getUserPassword();
         if (userEmail != null && userRepository.existsByUserEmail(userEmail)) {
             return "User with provided Email ID exists";
-        } else {
+        }
+        if (userPassword != null && userPassword.length() < 8) {
+            return "Password must be at least 8 characters long";
+        }
+        else {
             userRepository.save(user);
             return "User Created successfully";
         }
