@@ -10,7 +10,6 @@ import java.util.Optional;
 public class UserServicesImp implements UserService
 {
 
-
     UserRepository userRepository;
 
     public UserServicesImp(UserRepository userRepository) {
@@ -20,8 +19,13 @@ public class UserServicesImp implements UserService
 
     @Override
     public String createUser(User user) {
-        userRepository.save(user);
-        return "Success";
+        String userEmail = user.getUserEmail();
+        if (userEmail != null && userRepository.existsByUserEmail(userEmail)) {
+            return "User with provided Email ID exists";
+        } else {
+            userRepository.save(user);
+            return "User Created successfully";
+        }
     }
 
     @Override

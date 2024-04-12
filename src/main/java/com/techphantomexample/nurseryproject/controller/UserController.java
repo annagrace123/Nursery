@@ -38,8 +38,8 @@ public class UserController
 
     @PostMapping
     public ResponseEntity<String> createUserDetails(@RequestBody User user) {
-        userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User Created Successfully");
+        //userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
     @PutMapping("{userId}")
