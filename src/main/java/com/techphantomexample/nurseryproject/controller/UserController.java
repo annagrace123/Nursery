@@ -41,7 +41,16 @@ public class UserController
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
     }
-
+    // Read specific user
+    @GetMapping("{userId}")
+    public ResponseEntity<User> getUserDetails(@PathVariable("userId") int userId) {
+        User user = userService.getUser(userId);
+        if (user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PutMapping("{userId}")
     public ResponseEntity<String> updateUserDetails(@PathVariable("userId") int userId, @RequestBody User user) {
