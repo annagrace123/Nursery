@@ -26,8 +26,8 @@ public class UserServicesImp implements UserService
             return "User with provided Email ID exists";
         }
 
-        if (userPassword != null && userPassword.length() < 8) {
-            return "Password must be at least 8 characters long";
+        if (!isValidPassword(userPassword)) {
+            return "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one digit";
         }
 
         userRepository.save(user);
@@ -36,6 +36,13 @@ public class UserServicesImp implements UserService
 
     private boolean existsByEmail(String userEmail) {
         return userRepository.existsByUserEmail(userEmail);
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+        return password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
     }
 
     @Override
