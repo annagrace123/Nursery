@@ -3,6 +3,7 @@ import com.techphantomexample.nurseryproject.model.User;
 import com.techphantomexample.nurseryproject.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class UserServicesImp implements UserService
     public String createUser(User user) {
         String userEmail = user.getUserEmail();
         String userPassword = user.getUserPassword();
+        String userRole = user.getUserRole();
 
         if (userEmail != null && existsByEmail(userEmail)) {
             return "User with provided Email ID exists";
@@ -28,6 +30,10 @@ public class UserServicesImp implements UserService
 
         if (!isValidPassword(userPassword)) {
             return "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one digit";
+        }
+
+        if (!isValidUserRole(userRole)) {
+            return "User role should be one among: ADMIN, SUPERVISOR, BUYER, SELLER";
         }
 
         userRepository.save(user);
@@ -43,6 +49,15 @@ public class UserServicesImp implements UserService
             return false;
         }
         return password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
+    }
+
+    private boolean isValidUserRole(String userRole) {
+        if (userRole == null) {
+            return false;
+        }
+        String userRoleString = userRole.toString().toUpperCase(); // Convert user role to uppercase
+        List<String> validRoles = Arrays.asList("ADMIN", "SUPERVISOR", "BUYER", "SELLER");
+        return validRoles.contains(userRoleString);
     }
 
     @Override
