@@ -19,14 +19,20 @@ public class UserController
     }
 
     // Read specific user
-    @GetMapping("{userId}")
-    public ResponseEntity<User> getUserDetails(@PathVariable("userId") int userId) {
-        User user = userService.getUser(userId);
-        if (user != null) {
-            return ResponseEntity.ok().body(user);
+
+    @PostMapping
+    public ResponseEntity<CreateResponse> createUser(@RequestBody User user) {
+        String result = userService.createUser(user);
+        HttpStatus httpStatus;
+        if (result.equals("User Created successfully")) {
+            httpStatus = HttpStatus.CREATED;
+        } else if (result.equals("User with provided Email ID exists")) {
+            httpStatus = HttpStatus.CONFLICT;
         } else {
-            return ResponseEntity.notFound().build();
+            httpStatus = HttpStatus.BAD_REQUEST;
         }
+        CreateResponse response = new CreateResponse(result, httpStatus.value());
+        return ResponseEntity.status(httpStatus).body(response);
     }
 
     // Read all users in DB
@@ -36,11 +42,6 @@ public class UserController
         return ResponseEntity.ok().body(users);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createUserDetails(@RequestBody User user) {
-        //userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
-    }
 
     @PutMapping("{userId}")
     public ResponseEntity<String> updateUserDetails(@PathVariable("userId") int userId, @RequestBody User user) {
@@ -62,3 +63,4 @@ public class UserController
         }
     }
 }
+
