@@ -12,6 +12,7 @@ public class Plant
     @Id
     @GeneratedValue
     private int plantId;
+
     private String plantName;
     private String plantDesc;
     private String plantCategory;
