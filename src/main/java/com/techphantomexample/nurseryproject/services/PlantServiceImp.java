@@ -35,7 +35,7 @@ public class PlantServiceImp implements  PlantService{
     }
 
     @Override
-    public boolean updatePlant(int plantId, Plant newPlantDetails) {
+    public String updatePlant(int plantId, Plant newPlantDetails) {
         Optional<Plant> optionalUser = plantRepository.findById(plantId);
         if (optionalUser.isPresent()) {
             Plant existingPlant = optionalUser.get();
@@ -50,21 +50,21 @@ public class PlantServiceImp implements  PlantService{
 
             plantRepository.save(existingPlant);
 
-            return true;
+            return "Plant updated successfully";
         } else {
 
-            return false;
+            return "";
         }
     }
 
     @Override
-    public boolean deletePlant(int plantId) {
+    public String deletePlant(int plantId) {
         if (plantRepository.existsById(plantId))
         {
             plantRepository.deleteById(plantId);
-            return true;
+            return "Plant deleted successfully";
         }
-        return false;
+        return "Plant not found";
     }
 
     @Override

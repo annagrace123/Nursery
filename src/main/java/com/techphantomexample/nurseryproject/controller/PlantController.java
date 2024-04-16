@@ -1,6 +1,5 @@
 package com.techphantomexample.nurseryproject.controller;
 import com.techphantomexample.nurseryproject.model.Plant;
-import com.techphantomexample.nurseryproject.model.User;
 import com.techphantomexample.nurseryproject.services.PlantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,23 +48,29 @@ public class PlantController
     }
 
     @PutMapping("{plantId}")
-    public ResponseEntity<String> updatePlantDetails(@PathVariable("plantId") int plantId, @RequestBody Plant plant) {
-        boolean updated = plantService.updatePlant(plantId , plant);
-        if (updated) {
-            return ResponseEntity.ok().body("Plant Update Successfully");
+    public ResponseEntity<CreateResponse> updatePlantDetails(@PathVariable("plantId") int plantId, @RequestBody Plant plant) {
+        String result = plantService.updatePlant(plantId, plant);
+        HttpStatus httpStatus;
+        if (result.equals("Plant updated successfully")) {
+            httpStatus = HttpStatus.OK;
         } else {
-            return ResponseEntity.notFound().build();
+            httpStatus = HttpStatus.NOT_FOUND;
         }
+        CreateResponse response = new CreateResponse(result, httpStatus.value());
+        return ResponseEntity.status(httpStatus).body(response);
     }
 
     @DeleteMapping("{plantId}")
-    public ResponseEntity<String> deletePlantDetails(@PathVariable("plantId") int plantId) {
-        boolean deleted = plantService.deletePlant(plantId);
-        if (deleted) {
-            return ResponseEntity.ok().body("Plant Deleted Successfully");
+    public ResponseEntity<CreateResponse> deletePlantDetails(@PathVariable("plantId") int plantId) {
+        String result = plantService.deletePlant(plantId);
+        HttpStatus httpStatus;
+        if (result.equals("Plant deleted successfully")) {
+            httpStatus = HttpStatus.OK;
         } else {
-            return ResponseEntity.notFound().build();
+            httpStatus = HttpStatus.NOT_FOUND;
         }
+        CreateResponse response = new CreateResponse(result, httpStatus.value());
+        return ResponseEntity.status(httpStatus).body(response);
     }
 
 }
