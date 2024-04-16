@@ -53,23 +53,31 @@ public class UserController
     }
 
     @PutMapping("{userId}")
-    public ResponseEntity<String> updateUserDetails(@PathVariable("userId") int userId, @RequestBody User user) {
-        boolean updated = userService.updateUser(userId, user);
-        if (updated) {
-            return ResponseEntity.ok().body("User Update Successfully");
+    public ResponseEntity<CreateResponse> updateUserDetails(@PathVariable("userId") int userId, @RequestBody User user) {
+        String result = userService.updateUser(userId, user);
+        HttpStatus httpStatus;
+        if (result.equals("User Updated Successfully")) {
+            httpStatus = HttpStatus.OK;
         } else {
-            return ResponseEntity.notFound().build();
+            httpStatus = HttpStatus.NOT_FOUND;
         }
+        CreateResponse response = new CreateResponse(result, httpStatus.value());
+        return ResponseEntity.status(httpStatus).body(response);
     }
 
+
+
     @DeleteMapping("{userId}")
-    public ResponseEntity<String> deleteUserDetails(@PathVariable("userId") int userId) {
-        boolean deleted = userService.deleteUser(userId);
-        if (deleted) {
-            return ResponseEntity.ok().body("User Deleted Successfully");
+    public ResponseEntity<CreateResponse> deleteUserDetails(@PathVariable("userId") int userId) {
+        String result = userService.deleteUser(userId);
+        HttpStatus httpStatus;
+        if (result.equals("User Deleted Successfully")) {
+            httpStatus = HttpStatus.OK;
         } else {
-            return ResponseEntity.notFound().build();
+            httpStatus = HttpStatus.NOT_FOUND;
         }
+        CreateResponse response = new CreateResponse(result, httpStatus.value());
+        return ResponseEntity.status(httpStatus).body(response);
     }
 }
 

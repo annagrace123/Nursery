@@ -61,7 +61,7 @@ public class UserServicesImp implements UserService
     }
 
     @Override
-    public boolean updateUser(int userId, User newUserDetails) {
+    public String updateUser(int userId, User newUserDetails) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
@@ -74,21 +74,21 @@ public class UserServicesImp implements UserService
 
             userRepository.save(existingUser);
 
-            return true;
+            return "User Updated Successfully";
         } else {
 
-            return false;
+            return "";
         }
     }
 
     @Override
-    public boolean deleteUser(int userId) {
+    public String deleteUser(int userId) {
         if (userRepository.existsById(userId))
         {
             userRepository.deleteById(userId);
-            return true;
+            return "User Deleted Successfully";
         }
-        return false;
+        return "User Not Found";
     }
 
 
