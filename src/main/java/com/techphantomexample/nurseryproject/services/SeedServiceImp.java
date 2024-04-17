@@ -45,6 +45,8 @@ public class SeedServiceImp implements  SeedService{
             existingSeed.setSeedDesc(newSeedDetails.getSeedDesc());
             existingSeed.setSeedPackQuantity(newSeedDetails.getSeedPackQuantity());
             existingSeed.setSeedPrice(newSeedDetails.getSeedPrice());
+            existingSeed.setSeedGerminationTime(newSeedDetails.getSeedGerminationTime());
+            existingSeed.setSeedPlantingSeason(newSeedDetails.getSeedPlantingSeason());
             existingSeed.setSeedAvailability(newSeedDetails.isSeedAvailability());
 
 
