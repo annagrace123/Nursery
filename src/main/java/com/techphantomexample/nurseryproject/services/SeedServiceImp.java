@@ -4,10 +4,12 @@ import com.techphantomexample.nurseryproject.model.Plant;
 import com.techphantomexample.nurseryproject.model.Seed;
 import com.techphantomexample.nurseryproject.repository.SeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class SeedServiceImp implements  SeedService{
 
     @Autowired

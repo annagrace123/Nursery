@@ -1,7 +1,17 @@
 package com.techphantomexample.nurseryproject.model;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "seeds_info")
 public class Seed
 {
+    @Id
+    @GeneratedValue
     private int seedId;
     private String seedName;
     private String seedDesc;
@@ -10,12 +20,12 @@ public class Seed
     private String seedPlantingSeason;
     private String seedGerminationTime;
     private int seedPackQuantity;
-    private boolean plantAvailability;
+    private boolean seedAvailability;
 
     public Seed() {
     }
 
-    public Seed(String seedName, String seedDesc, String seedCategory, float seedPrice, String seedPlantingSeason, String seedGerminationTime, int seedPackQuantity, boolean plantAvailability) {
+    public Seed(String seedName, String seedDesc, String seedCategory, float seedPrice, String seedPlantingSeason, String seedGerminationTime, int seedPackQuantity, boolean seedAvailability) {
         this.seedName = seedName;
         this.seedDesc = seedDesc;
         this.seedCategory = seedCategory;
@@ -23,7 +33,7 @@ public class Seed
         this.seedPlantingSeason = seedPlantingSeason;
         this.seedGerminationTime = seedGerminationTime;
         this.seedPackQuantity = seedPackQuantity;
-        this.plantAvailability = plantAvailability;
+        this.seedAvailability = seedAvailability;
     }
 
     public String getSeedName() {
@@ -82,11 +92,11 @@ public class Seed
         this.seedPackQuantity = seedPackQuantity;
     }
 
-    public boolean isPlantAvailability() {
-        return plantAvailability;
+    public boolean isSeedAvailability() {
+        return seedAvailability;
     }
 
-    public void setPlantAvailability(boolean plantAvailability) {
-        this.plantAvailability = plantAvailability;
+    public void setSeedAvailability(boolean seedAvailability) {
+        this.seedAvailability = seedAvailability;
     }
 }
