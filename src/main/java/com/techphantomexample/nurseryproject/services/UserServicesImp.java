@@ -1,6 +1,7 @@
 package com.techphantomexample.nurseryproject.services;
 import com.techphantomexample.nurseryproject.model.User;
 import com.techphantomexample.nurseryproject.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -35,6 +36,9 @@ public class UserServicesImp implements UserService
         if (!isValidPassword(userPassword)) {
             return "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one digit";
         }
+
+        String hashedPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt());
+        user.setUserPassword(hashedPassword);
 
         if (!isValidUserRole(userRole)) {
             return "User role should be one among: ADMIN, SUPERVISOR, BUYER, SELLER";
@@ -75,9 +79,25 @@ public class UserServicesImp implements UserService
             User existingUser = optionalUser.get();
 
             existingUser.setUserFullName(newUserDetails.getUserFullName());
-            existingUser.setUserEmail(newUserDetails.getUserEmail());
-            existingUser.setUserPassword(newUserDetails.getUserPassword());
-            existingUser.setUserRole(newUserDetails.getUserRole());
+
+            String newEmail = newUserDetails.getUserEmail();
+            if (newEmail != null && !isValidEmail(newEmail)) {
+                return "Invalid email address";
+            }
+            existingUser.setUserEmail(newEmail);
+
+            String newPassword = newUserDetails.getUserPassword();
+            if (newPassword != null && !isValidPassword(newPassword)) {
+                return "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one digit";
+            }
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            existingUser.setUserPassword(hashedPassword);
+
+            String newUserRole = newUserDetails.getUserRole();
+            if (newUserRole != null && !isValidUserRole(newUserRole)) {
+                return "User role should be one among: ADMIN, SUPERVISOR, BUYER, SELLER";
+            }
+            existingUser.setUserRole(newUserRole);
 
 
             userRepository.save(existingUser);
