@@ -24,7 +24,11 @@ public class UserServicesImp implements UserService
         String userPassword = user.getUserPassword();
         String userRole = user.getUserRole();
 
-        if (userEmail != null && existsByEmail(userEmail)) {
+        if (userEmail == null || !isValidEmail(userEmail)) {
+            return "Invalid email address";
+        }
+
+        if (existsByEmail(userEmail)) {
             return "User with provided Email ID exists";
         }
 
@@ -39,7 +43,11 @@ public class UserServicesImp implements UserService
         userRepository.save(user);
         return "User Created successfully";
     }
-
+    private boolean isValidEmail(String email) {
+        // Regular expression for basic email validation
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
+    }
     private boolean existsByEmail(String userEmail) {
         return userRepository.existsByUserEmail(userEmail);
     }
