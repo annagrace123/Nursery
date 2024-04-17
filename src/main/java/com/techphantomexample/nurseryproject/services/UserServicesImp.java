@@ -2,6 +2,7 @@ package com.techphantomexample.nurseryproject.services;
 import com.techphantomexample.nurseryproject.model.User;
 import com.techphantomexample.nurseryproject.repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Optional;
 @Service
 public class UserServicesImp implements UserService
 {
-
+    @Autowired
     UserRepository userRepository;
 
     public UserServicesImp(UserRepository userRepository) {
