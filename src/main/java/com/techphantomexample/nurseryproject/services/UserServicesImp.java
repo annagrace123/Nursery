@@ -47,30 +47,6 @@ public class UserServicesImp implements UserService
         userRepository.save(user);
         return "User Created successfully";
     }
-    private boolean isValidEmail(String email) {
-        // Regular expression for basic email validation
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return email.matches(emailRegex);
-    }
-    private boolean existsByEmail(String userEmail) {
-        return userRepository.existsByUserEmail(userEmail);
-    }
-
-    private boolean isValidPassword(String password) {
-        if (password == null || password.length() < 8) {
-            return false;
-        }
-        return password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
-    }
-
-    private boolean isValidUserRole(String userRole) {
-        if (userRole == null) {
-            return false;
-        }
-        String userRoleString = userRole.toString().toUpperCase(); // Convert user role to uppercase
-        List<String> validRoles = Arrays.asList("ADMIN", "SUPERVISOR", "BUYER", "SELLER");
-        return validRoles.contains(userRoleString);
-    }
 
     @Override
     public String updateUser(int userId, User newUserDetails) {
@@ -129,4 +105,30 @@ public class UserServicesImp implements UserService
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    private boolean isValidEmail(String email) {
+        // Regular expression for basic email validation
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
+    }
+    private boolean existsByEmail(String userEmail) {
+        return userRepository.existsByUserEmail(userEmail);
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+        return password.matches("^(?=.*[A-Z])(?=.*\\d).+$");
+    }
+
+    private boolean isValidUserRole(String userRole) {
+        if (userRole == null) {
+            return false;
+        }
+        String userRoleString = userRole.toString().toUpperCase(); // Convert user role to uppercase
+        List<String> validRoles = Arrays.asList("ADMIN", "SUPERVISOR", "BUYER", "SELLER");
+        return validRoles.contains(userRoleString);
+    }
+
 }
